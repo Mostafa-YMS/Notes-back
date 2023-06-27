@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { Sequelize, sequelize } = require("../models");
+const { router } = require("./router");
 
 dotenv.config();
 
@@ -17,9 +18,7 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.send(`I am alive`);
-});
+app.use("/", router);
 
 app.listen(PORT, async (err) => {
   if (err) console.log("server", err);
