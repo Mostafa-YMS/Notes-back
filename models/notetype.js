@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(Note, { foreignKey: "typeId" });
     }
+    toJSON() {
+      return { ...this.get(), note: undefined };
+    }
   }
   noteType.init(
     {
@@ -23,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "NoteType",
+      tableName: "noteTypes",
     }
   );
   return noteType;
