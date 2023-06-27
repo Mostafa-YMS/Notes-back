@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const { Sequelize, sequelize } = require("../models");
 const { router } = require("./router");
+const multer = require("multer");
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ app.use(
     extended: true,
   })
 );
+app.use(multer().any());
 
 app.use("/", router);
 
