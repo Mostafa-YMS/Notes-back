@@ -1,12 +1,16 @@
+const { validationResult } = require("express-validator");
 const { User } = require("../../../models");
 
 const createUser = async (req, res) => {
+  const result = validationResult(req).array();
+  if (result?.length) return res.send("Proper name is required");
+
   const { name } = req.body;
-  if (name && req.files[0]) {
-    const user = await User.create({ name, pic: req.files[0] });
-    return res.send(user);
-  }
-  res.send("name & pic are required");
+  const user = await User.create({
+    name,
+    pic: req.files?.length ? req.files[0] : null,
+  });
+  return res.send(user);
 };
 
 const getUsers = async (req, res) => {
