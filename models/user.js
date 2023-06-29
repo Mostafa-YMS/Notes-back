@@ -11,6 +11,13 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       this.hasMany(Note, { foreignKey: "userId" });
     }
+    toJSON() {
+      const user = this.get();
+      return {
+        ...user,
+        pic: user?.pic ? `${process.env.BASE_URL}/uploads/${user.pic}` : null,
+      };
+    }
   }
   user.init(
     {

@@ -4,21 +4,24 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const { Sequelize, sequelize } = require("../models");
 const { router } = require("./router");
-const multer = require("multer");
+const path = require("path");
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
+const MAX_SIZE = 1.7 * 1024 * 1024;
+
+global.__basedir = path.join(__dirname, "../");
+app.use(express.static(path.join(__dirname, "../public")));
 
 app.use(cors());
-app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
-app.use(multer().any());
+app.use(bodyParser.json());
 
 app.use("/", router);
 

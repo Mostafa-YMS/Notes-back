@@ -5,10 +5,14 @@ const createUser = async (req, res) => {
   const result = validationResult(req).array();
   if (result?.length) return res.send("Proper name is required");
 
+  const pic = req.file;
+  if (!pic?.mimetype?.includes("image"))
+    return res.send("pic must be an image");
+
   const { name } = req.body;
   const user = await User.create({
     name,
-    pic: req.files?.length ? req.files[0] : null,
+    pic: pic?.filename,
   });
   return res.send(user);
 };
