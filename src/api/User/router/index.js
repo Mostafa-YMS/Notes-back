@@ -1,7 +1,7 @@
 const { Router } = require("express");
-const { createUser, getUsers } = require("../../controller/User");
-const userSchema = require("../../Schema/User");
-const uploadFile = require("../../shared/upload");
+const { createUser, getUsers } = require("../controller");
+const userSchema = require("../Schema");
+const uploadFile = require("../../../shared/upload");
 
 const userRouter = Router();
 

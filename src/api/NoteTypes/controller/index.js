@@ -1,4 +1,4 @@
-const { NoteType } = require("../../../models");
+const { NoteType } = require("../../../../models");
 
 const getNoteTypes = async (req, res) => {
   const notes = await NoteType.findAll();

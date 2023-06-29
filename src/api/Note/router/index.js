@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { noteTypesRouter } = require("./Type");
+const { noteTypesRouter } = require("../../NoteTypes/router");
 
 const notesRouter = Router();
 
