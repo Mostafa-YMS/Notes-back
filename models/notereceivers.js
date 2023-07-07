@@ -51,7 +51,11 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "NoteReceivers",
       tableName: "noteReceivers",
-      timestamps: false,
+      defaultScope: {
+        where: {
+          deletedAt: null,
+        },
+      },
     }
   );
   return noteReceivers;

@@ -40,11 +40,6 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "Note",
       tableName: "notes",
-      defaultScope: {
-        where: {
-          deletedAt: null,
-        },
-      },
     }
   );
   return note;

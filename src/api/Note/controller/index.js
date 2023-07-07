@@ -1,3 +1,4 @@
+const moment = require("moment");
 const {
   Note,
   NoteReceivers,
@@ -5,6 +6,7 @@ const {
   NoteType,
   User,
 } = require("../../../../models");
+const { Op } = require("sequelize");
 
 const getNotes = async (req, res) => {
   let notes = [];
@@ -24,7 +26,12 @@ const getNotes = async (req, res) => {
     });
   } else {
     notes = await NoteReceivers.findAll({
-      where: { userId: req?.query?.userId },
+      where: {
+        userId: req?.query?.userId,
+        createdAt: {
+          [Op.gte]: moment().subtract(30, "days").toDate(),
+        },
+      },
       include: [
         {
           model: Note,
