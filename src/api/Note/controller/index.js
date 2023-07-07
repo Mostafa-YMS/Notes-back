@@ -25,19 +25,22 @@ const getNotes = async (req, res) => {
       ],
     });
   } else {
+    const typeCondition = {};
+    if (req?.query?.typeIds?.length) typeCondition.typeId = req?.query?.typeIds;
     notes = await NoteReceivers.findAll({
-      where: {
-        userId: req?.query?.userId,
-        createdAt: {
-          [Op.gte]: moment().subtract(30, "days").toDate(),
-        },
-      },
+      where: { userId: req?.query?.userId },
       include: [
         {
           model: Note,
           as: "note",
-          required: false,
+          required: true,
           include: [{ model: User, as: "sender", required: false }],
+          where: {
+            ...typeCondition,
+            createdAt: {
+              [Op.gte]: moment().subtract(30, "days").toDate(),
+            },
+          },
         },
       ],
     });
