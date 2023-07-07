@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: "NoteType",
       tableName: "noteTypes",
+      defaultScope: {
+        where: {
+          disabled: false,
+        },
+      },
     }
   );
   return noteType;
