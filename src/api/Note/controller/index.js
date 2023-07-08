@@ -9,9 +9,15 @@ const {
 const { Op } = require("sequelize");
 
 const getNotes = async (req, res) => {
+  const {
+    context: { limit, skip, page },
+  } = req;
+
   let notes = [];
   if (req?.query?.type === "created") {
     notes = await Note.findAll({
+      limit,
+      offset: skip,
       where: { userId: req?.query?.userId },
       include: [
         { model: NoteMedia, as: "media", required: false, separate: true },
@@ -28,6 +34,8 @@ const getNotes = async (req, res) => {
     const typeCondition = {};
     if (req?.query?.typeIds?.length) typeCondition.typeId = req?.query?.typeIds;
     notes = await NoteReceivers.findAll({
+      limit,
+      offset: skip,
       where: { userId: req?.query?.userId },
       include: [
         {
@@ -45,7 +53,7 @@ const getNotes = async (req, res) => {
       ],
     });
   }
-  res.send(notes);
+  res.send({ page, data: notes });
 };
 
 const getSingleNote = async (req, res) => {
