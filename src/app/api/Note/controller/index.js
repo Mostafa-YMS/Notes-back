@@ -5,7 +5,7 @@ const {
   NoteMedia,
   NoteType,
   User,
-} = require("../../../../models");
+} = require("../../../../../models");
 const { Op } = require("sequelize");
 
 const getNotes = async (req, res) => {
@@ -69,13 +69,14 @@ const getSingleNote = async (req, res) => {
 
 createNote = async (req, res) => {
   const { userId, title, body, typeId, toUsers } = req.body;
+  const user = await User.findOne({ where: { id: userId } });
   const note = await Note.create({ userId, title, body, typeId });
 
   await NoteReceivers.bulkCreate(
     toUsers?.map((userId) => ({ noteId: note?.dataValues?.id, userId }))
   );
 
-  res.send(note);
+  res.send({ ...note?.dataValues, sender: user?.dataValues });
 };
 
 module.exports = { getNotes, createNote, getSingleNote };
